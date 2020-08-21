@@ -1,3 +1,9 @@
+use std::process::{Command, Stdio};
+
+
 fn main() {
-    println!("Hello, world!");
+	Command::new("ls")
+        .stdin(Stdio::null())
+        .spawn()
+        .expect("ls command failed to start");
 }
