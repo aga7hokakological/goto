@@ -1,8 +1,13 @@
 use std::io;
 use std::{env, fs, fmt};
-use std::path::Path;
+use std::fs::canonicalize;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
+use walkdir::WalkDir;
+
+extern crate skim;
+use skim::prelude::*;
 
 // pub mod terminal;
 
@@ -20,20 +25,22 @@ use std::process::{Command, Stdio};
 // 	Ok(())
 // }
 
-#[shell]
-fn change_dir(home_dir: PathBuf, current_dir: PathBuf) {
-	println!("{:?}", home_dir);
-}
+// #[shell]
+// fn change_dir(home_dir: PathBuf, current_dir: PathBuf) {
+// 	println!("{:?}", home_dir);
+// }
 
-fn search(path: String) {
-	// println!("hello world");
-}
+// fn search(path: String) -> Result<(), io::Error> {
+// 	for entry in WalkDir::new(&path) {
+//     	println!("{}", entry.path().display());
+// 	}
+// }
 
 fn main() {
-	// let args: Vec<String> = env::args().collect();
+	let args: Vec<String> = env::args().collect();
 	// println!("{:?}", args);
 
-	// let path = &args[1];
+	let path = &args[1];
 
 	let home_dir = env::home_dir().unwrap();
 	println!("{:?}", home_dir.to_str());
@@ -41,18 +48,20 @@ fn main() {
 	let current_dir = env::current_dir().unwrap();
 	println!("{:?}", current_dir.to_str());
 
-	// search(path.to_string());
-// 
-	let path1 = Path::new("/home/saurabh/Desktop");
-	env::set_current_dir(path1).is_ok();
+	// search(&path);
+
+	// let goto_dir = PathBuf::from(&path);
+	// println!("{:?}", fs::canonicalize(&goto_dir));
+
+	let path1 = Path::new(&path);
+	env::set_current_dir(&path1).is_ok();
 	println!("Successfully changed working directory to {}!", path1.display());
 
-
-	change_dir(&home_dir, &current_dir);
-	// Command::new("ls")
-	// 	.current_dir("/home/saurabh/")
- //        .spawn()
- //        .expect("command failed to start");
+	// change_dir(&home_dir, &current_dir);
+	Command::new("ls")
+		.current_dir(&path1)
+        .spawn()
+        .expect("command failed to start");
 
  	// let path = current_dir();
  	// println!("{:?}", path);
