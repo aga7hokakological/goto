@@ -53,12 +53,39 @@ where
     Ok(absolute_path)
 }
 
-fn create_path(home_dir: &std::path::PathBuf, arg_path: &std::string::String) -> io::Result<()> {
-	for entry in fs::read_dir(home_dir)? {
-		let dir = entry?;
-		println!("{:?}", dir.path());
-	}
-	Ok(())
+// fn create_path(home_dir: &std::path::PathBuf, arg_path: &std::string::String) -> io::Result<()> {
+// 	for entry in fs::read_dir(home_dir)? {
+// 		let dir = entry?;
+// 		println!("{:?}", dir.path());
+// 	}
+// 	Ok(())
+// }
+
+fn recursive_file_traversal<P>(home_dir: P) 
+where
+    P: AsRef<Path>{
+    for entry in fs::read_dir(home_dir).unwrap(){
+        let path_buffer =  entry.unwrap().path();
+        let file_path= path_buffer.display().to_string();        
+        if !file_path.contains("$")
+        {
+            let attrib_result = fs::metadata(file_path.clone());
+            if attrib_result.is_ok()
+            {
+                let attributes =  attrib_result.unwrap();
+
+                if attributes.is_dir()
+                {
+                    let new_directory = file_path.clone();
+                    recursive_file_traversal(new_directory);
+                }
+                else if attributes.is_file()
+                {
+                    println!("{}", file_path.clone());
+                }
+            }
+        }
+    }
 }
 
 fn main() {
@@ -87,7 +114,9 @@ fn main() {
 
 	absolute_path(&p);
 
-	create_path(&home_dir, arg_path);
+	recursive_file_traversal(&home_dir);
+
+	// create_path(&home_dir, arg_path);
 
 	let path1 = Path::new(&p);
 	env::set_current_dir(&path1).is_ok();
