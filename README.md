@@ -1,7 +1,5 @@
 # <div align="center">_goto_</div>
 
-***
-
 <div align="center">A directory jumper without needing to enter full path</div>
 
 

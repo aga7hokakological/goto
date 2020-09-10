@@ -1,15 +1,33 @@
-use std::{env, fs};
-use std::path::Path;
-// use std::process;
+use std::{
+    fs,
+    path::Path,
+    process,
+};
 
-// #[macro_use] extern crate lazy_static;
+extern crate exitcode;
+
 extern crate regex;
 use regex::Regex;
 
+#[test]
+fn dir() {
+
+    let new_dir = String::from("~/Desktop");
+
+    let path1 = Path::new(&new_dir);
+    env::set_current_dir(&path1).unwrap();
+    println!("{}!", path1.display());
+}
+
 pub fn change_dir(new_dir: String) {
-	let path1 = Path::new(&new_dir);
-	env::set_current_dir(&path1).unwrap();
-	println!("Successfully changed working directory to {}!", path1.display());
+    println!("{}", new_dir);
+
+    match std::env::set_current_dir(&new_dir) {
+        Ok(_) => process::exit(exitcode::OK),  
+        Err(e) => {
+            println!("{}", e);
+        }
+    }
 }
 
 
@@ -21,7 +39,7 @@ where
 
     // One time compilation
     lazy_static! {
-    	static ref RE: Regex = Regex::new(r"(\w+)$").unwrap();
+    	static ref RE: Regex = Regex::new(r"(\.\w+|\w+)$").unwrap();
     }
 
     for entry in fs::read_dir(home_dir).unwrap(){
@@ -37,16 +55,12 @@ where
                 if attributes.is_dir() {
 
                     let new_directory = file_path.clone();
-                    // println!("{:?}", new_directory);
-                    let match_path = RE.find(&new_directory).unwrap();
-                    // println!("{:?}", match_path);
 
-                    let start = match_path.start();
-                    let end = match_path.end();
+                    let match_path = RE.captures(&new_directory).unwrap();
 
-                    if &new_directory[start..end] == arg_path.as_str() {
-                    	println!("{:?}", new_directory);
-                    	change_dir(new_directory);
+                    if &match_path[0] == arg_path.as_str() {
+                        change_dir(new_directory);
+                    	break;
                     } else {
                     	recursive_file_traversal(new_directory, arg_path);
                     }

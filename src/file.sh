@@ -1,8 +1,11 @@
-my_func() {
-	eval `./main.rs`
+#!/usr/bin/env bash 
+
+gt() {
+	~/.cargo/bin/gt "$@"
 }
 
+read userinput
 
-if [ $1 == "gt" ];then
-	my_func
+if [ $userinput == "gt" ];then
+	gt
 fi
