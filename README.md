@@ -4,6 +4,7 @@
 
 <div align="center">A directory jumper without needing to enter full path</div>
 
+
 ### Tasks:
 
 - [x] Search for Directory
