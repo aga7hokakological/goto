@@ -3,7 +3,7 @@
 <div align="center">(WIP) A directory jumper without needing to enter full path</div>
 
 
-<div align="center">![](gt.gif)</div>
+![](gt.gif)
 
 ### Tasks:
 
