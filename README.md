@@ -1,8 +1,9 @@
 # <div align="center">_goto_</div>
 
-<div align="center">(WIP)A directory jumper without needing to enter full path</div>
+<div align="center">(WIP) A directory jumper without needing to enter full path</div>
 
-![](gt.gif)
+
+<div align="center">![](gt.gif)</div>
 
 ### Tasks:
 
@@ -10,4 +11,4 @@
 - [ ] Change Hook Prompt
 - [x] Take valid inputs
 - [ ] Windows Support
-- [ ] db support(more speed improvements)
+- [ ] more speed improvements
