@@ -5,7 +5,6 @@ use std::{
 };
 
 extern crate exitcode;
-
 extern crate regex;
 use regex::Regex;
 
@@ -19,8 +18,8 @@ fn dir() {
     println!("{}!", path1.display());
 }
 
-pub fn change_dir(new_dir: String) {
-    println!("{}", new_dir);
+pub fn change_dir(new_dir: String) -> String {
+    // println!("{}", new_dir);
 
     match std::env::set_current_dir(&new_dir) {
         Ok(_) => process::exit(exitcode::OK),  
@@ -28,6 +27,8 @@ pub fn change_dir(new_dir: String) {
             println!("{}", e);
         }
     }
+
+    return new_dir
 }
 
 

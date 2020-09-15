@@ -1,11 +1,10 @@
 #!/usr/bin/env bash 
 
 gt() {
-	~/.cargo/bin/gt "$@"
+	dir=$(~/.cargo/bin/gt $@)
+	echo $dir	
+	cd $dir
 }
 
-read userinput
-
-if [ $userinput == "gt" ];then
-	gt
-fi
+export -f gt
+eval "$(gt init bash)"
